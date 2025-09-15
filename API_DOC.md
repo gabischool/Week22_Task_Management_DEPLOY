@@ -3,7 +3,7 @@
 ### Base URL
 
 - Local: `http://localhost:3000`
-- Production: your deployed Render URL (e.g., `https://your-app-name.onrender.com`)
+- Production: your deployed Render URL (e.g., `https://week22-task-management-deploy.onrender.com`)
 
 All routes below are relative to the base URL.
 
