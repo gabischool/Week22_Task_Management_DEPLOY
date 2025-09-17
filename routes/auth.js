@@ -119,6 +119,7 @@ router.post("/login", async (req, res) => {
 });
 
 // GET /api/auth/me - Get current user profile (protected route)
+//commeneted out to test other routes without token
 router.get("/me", authenticateToken, async (req, res) => {
   try {
     // req.user will be set by the authenticateToken middleware
