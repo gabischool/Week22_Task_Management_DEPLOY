@@ -290,4 +290,223 @@ router.delete("/subtasks/:id", async (req, res) => {
   }
 });
 
+// GET ALL TASKS
+router.get("/tasks", async (req, res) => {
+  try {
+    const tasks = await getAllTasks(req.user.id);
+    res.status(200).json({                
+      success: true,
+      count: tasks.length,
+      data: tasks,
+    });
+  } catch (error) {
+    res.status(500).json({               
+      success: false,
+      error: error.message,
+    });
+  }
+});
+
+// GET SINGLE TASK
+router.get("/tasks/:id", async (req, res) => {
+  try {
+    const task = await getTaskById(req.params.id, req.user.id);
+
+    if (!task) {
+      return res.status(404).json({       
+        success: false,
+        error: "Task not found",
+      });
+    }
+
+    res.status(200).json({                
+      success: true,
+      data: task,
+    });
+  } catch (error) {
+    res.status(500).json({                
+      success: false,
+      error: error.message,
+    });
+  }
+});
+
+// CREATE TASK
+router.post("/tasks", async (req, res) => {
+  try {
+    const newTask = await createTask(req.body, req.user.id);
+    res.status(201).json({                
+      success: true,
+      data: newTask,
+    });
+  } catch (error) {
+    res.status(400).json({               
+      success: false,
+      error: error.message,
+    });
+  }
+});
+
+// UPDATE TASK
+router.put("/tasks/:id", async (req, res) => {
+  try {
+    const updatedTask = await updateTask(req.params.id, req.body, req.user.id);
+    res.status(200).json({               
+      success: true,
+      data: updatedTask,
+    });
+  } catch (error) {
+    if (error.message === "Task not found") {
+      res.status(404).json({
+        success: false,
+        error: error.message,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+});
+
+// DELETE TASK
+router.delete("/tasks/:id", async (req, res) => {
+  try {
+    const deletedTask = await deleteTask(req.params.id, req.user.id);
+    res.status(200).json({                
+      success: true,
+      data: deletedTask,
+    });
+  } catch (error) {
+    if (error.message === "Task not found") {
+      res.status(404).json({
+        success: false,
+        error: error.message,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+});
+
+// GET SUBTASKS BY TASK
+router.get("/tasks/:taskId/subtasks", async (req, res) => {
+  try {
+    const subtasks = await getSubtasksByTaskId(req.params.taskId, req.user.id);
+    res.status(200).json({               
+      success: true,
+      count: subtasks.length,
+      data: subtasks,
+    });
+  } catch (error) {
+    if (error.message.includes("not found") || error.message.includes("access denied")) {
+      res.status(404).json({
+        success: false,
+        error: error.message,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+});
+
+// GET SINGLE SUBTASK
+router.get("/subtasks/:id", async (req, res) => {
+  try {
+    const subtask = await getSubtaskById(req.params.id, req.user.id);
+    res.status(200).json({                
+      success: true,
+      data: subtask,
+    });
+  } catch (error) {
+    if (error.message.includes("not found") || error.message.includes("access denied")) {
+      res.status(404).json({
+        success: false,
+        error: error.message,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+});
+
+// CREATE SUBTASK
+router.post("/tasks/:taskId/subtasks", async (req, res) => {
+  try {
+    const newSubtask = await createSubtask(req.params.taskId, req.body, req.user.id);
+    res.status(201).json({                
+      success: true,
+      data: newSubtask,
+    });
+  } catch (error) {
+    if (error.message.includes("not found") || error.message.includes("access denied")) {
+      res.status(404).json({
+        success: false,
+        error: error.message,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+});
+
+// UPDATE SUBTASK
+router.put("/subtasks/:id", async (req, res) => {
+  try {
+    const updatedSubtask = await updateSubtask(req.params.id, req.body, req.user.id);
+    res.status(200).json({                
+      success: true,
+      data: updatedSubtask,
+    });
+  } catch (error) {
+    if (error.message.includes("not found") || error.message.includes("access denied")) {
+      res.status(404).json({
+        success: false,
+        error: error.message,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+});
+
+// DELETE SUBTASK
+router.delete("/subtasks/:id", async (req, res) => {
+  try {
+    const deletedSubtask = await deleteSubtask(req.params.id, req.user.id);
+    res.status(200).json({                
+      success: true,
+      data: deletedSubtask,
+    });
+  } catch (error) {
+    if (error.message.includes("not found") || error.message.includes("access denied")) {
+      res.status(404).json({
+        success: false,
+        error: error.message,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+});
+
 export default router;
