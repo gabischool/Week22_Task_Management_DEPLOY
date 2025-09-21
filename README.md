@@ -42,14 +42,6 @@ In the `routes/tasks.js` file, you need to add proper HTTP status codes to all t
 
 ### Task 3: MVP: API Documentation
 
-Create comprehensive API documentation in the `API_DOC.md` file. Include:
-
-- Base URL
-- All available endpoints
-- Request/response formats
-- Authentication requirements
-- Error handling
-- Example requests and responses
 
 ## Task 4: MVP: Deployment to Render.com
 
