@@ -597,13 +597,6 @@ All error responses follow this format:
 
 ## 🚀 Quick Start Guide
 
-### 1. Environment Setup
-Create a `.env` file in the root directory:
-```env
-DATABASE_URL="postgresql://username:password@localhost:5432/task_management"
- 
-PORT=3000
-```
 
 ### 2. Install Dependencies
 ```bash
