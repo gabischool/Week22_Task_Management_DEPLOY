@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import prisma from "../lib/prisma.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
-
+//..
 export const authenticateToken = async (req, res, next) => {
   try {
     const authHeader = req.headers["authorization"];
