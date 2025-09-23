@@ -22,14 +22,14 @@ router.get("/tasks", async (req, res) => {
     const tasks = await getAllTasks(req.user.id);
 
     // TODO: Add proper HTTP status code for successful response
-    res.json({
+    res.status(200).json({
       success: true,
       count: tasks.length,
       data: tasks,
     });
   } catch (error) {
     // TODO: Add proper HTTP status code for server error
-    res.json({
+    res.status(500).json({
       success: false,
       error: error.message,
     });
@@ -43,20 +43,20 @@ router.get("/tasks/:id", async (req, res) => {
 
     if (!task) {
       // TODO: Add proper HTTP status code for not found
-      return res.json({
+      return res.status(404).json({
         success: false,
         error: "Task not found",
       });
     }
 
     // TODO: Add proper HTTP status code for successful response
-    res.json({
+    res.status(200).json({
       success: true,
       data: task,
     });
   } catch (error) {
     // TODO: Add proper HTTP status code for server error
-    res.json({
+    res.status(200).json({
       success: false,
       error: error.message,
     });
@@ -69,13 +69,13 @@ router.post("/tasks", async (req, res) => {
     const newTask = await createTask(taskData, req.user.id);
 
     // TODO: Add proper HTTP status code for successful creation
-    res.json({
+    res.status(201).json({
       success: true,
       data: newTask,
     });
   } catch (error) {
     // TODO: Add proper HTTP status code for bad request
-    res.json({
+    res.status(400).json({
       success: false,
       error: error.message,
     });
@@ -89,20 +89,20 @@ router.put("/tasks/:id", async (req, res) => {
     const updatedTask = await updateTask(id, updateData, req.user.id);
 
     // TODO: Add proper HTTP status code for successful update
-    res.json({
+    res.status(200).json({
       success: true,
       data: updatedTask,
     });
   } catch (error) {
     if (error.message === "Task not found") {
       // TODO: Add proper HTTP status code for not found
-      res.json({
+      res.status(404).json({
         success: false,
         error: error.message,
       });
     } else {
       // TODO: Add proper HTTP status code for bad request
-      res.json({
+      res.status(400).json({
         success: false,
         error: error.message,
       });
@@ -116,20 +116,20 @@ router.delete("/tasks/:id", async (req, res) => {
     const deletedTask = await deleteTask(id, req.user.id);
 
     // TODO: Add proper HTTP status code for successful deletion
-    res.json({
+    res.status(200).json({
       success: true,
       data: deletedTask,
     });
   } catch (error) {
     if (error.message === "Task not found") {
       // TODO: Add proper HTTP status code for not found
-      res.json({
+      res.status(404).json({
         success: false,
         error: error.message,
       });
     } else {
       // TODO: Add proper HTTP status code for server error
-      res.json({
+      res.status(500).json({
         success: false,
         error: error.message,
       });
@@ -143,7 +143,7 @@ router.get("/tasks/:taskId/subtasks", async (req, res) => {
     const subtasks = await getSubtasksByTaskId(taskId, req.user.id);
 
     // TODO: Add proper HTTP status code for successful response
-    res.json({
+    res.status(200).json({
       success: true,
       count: subtasks.length,
       data: subtasks,
@@ -154,13 +154,13 @@ router.get("/tasks/:taskId/subtasks", async (req, res) => {
       error.message.includes("access denied")
     ) {
       // TODO: Add proper HTTP status code for not found
-      res.json({
+      res.status(404).json({
         success: false,
         error: error.message,
       });
     } else {
       // TODO: Add proper HTTP status code for server error
-      res.json({
+      res.status(500).json({
         success: false,
         error: error.message,
       });
@@ -174,7 +174,7 @@ router.get("/subtasks/:id", async (req, res) => {
     const subtask = await getSubtaskById(id, req.user.id);
 
     // TODO: Add proper HTTP status code for successful response
-    res.json({
+    res.status(200).json({
       success: true,
       data: subtask,
     });
@@ -184,13 +184,13 @@ router.get("/subtasks/:id", async (req, res) => {
       error.message.includes("access denied")
     ) {
       // TODO: Add proper HTTP status code for not found
-      res.json({
+      res.status(404).json({
         success: false,
         error: error.message,
       });
     } else {
       // TODO: Add proper HTTP status code for server error
-      res.json({
+      res.status(500).json({
         success: false,
         error: error.message,
       });
@@ -205,7 +205,7 @@ router.post("/tasks/:taskId/subtasks", async (req, res) => {
     const newSubtask = await createSubtask(taskId, subtaskData, req.user.id);
 
     // TODO: Add proper HTTP status code for successful creation
-    res.json({
+    res.status(201).json({
       success: true,
       data: newSubtask,
     });
@@ -215,13 +215,13 @@ router.post("/tasks/:taskId/subtasks", async (req, res) => {
       error.message.includes("access denied")
     ) {
       // TODO: Add proper HTTP status code for not found
-      res.json({
+      res.status(404).json({
         success: false,
         error: error.message,
       });
     } else {
       // TODO: Add proper HTTP status code for bad request
-      res.json({
+      res.status(400).json({
         success: false,
         error: error.message,
       });
@@ -236,7 +236,7 @@ router.put("/subtasks/:id", async (req, res) => {
     const updatedSubtask = await updateSubtask(id, updateData, req.user.id);
 
     // TODO: Add proper HTTP status code for successful update
-    res.json({
+    res.status(200).json({
       success: true,
       data: updatedSubtask,
     });
@@ -246,13 +246,13 @@ router.put("/subtasks/:id", async (req, res) => {
       error.message.includes("access denied")
     ) {
       // TODO: Add proper HTTP status code for not found
-      res.json({
+      res.status(404).json({
         success: false,
         error: error.message,
       });
     } else {
       // TODO: Add proper HTTP status code for bad request
-      res.json({
+      res.status(400).json({
         success: false,
         error: error.message,
       });
@@ -266,7 +266,7 @@ router.delete("/subtasks/:id", async (req, res) => {
     const deletedSubtask = await deleteSubtask(id, req.user.id);
 
     // TODO: Add proper HTTP status code for successful deletion
-    res.json({
+    res.status(200).json({
       success: true,
       data: deletedSubtask,
     });
@@ -276,13 +276,13 @@ router.delete("/subtasks/:id", async (req, res) => {
       error.message.includes("access denied")
     ) {
       // TODO: Add proper HTTP status code for not found
-      res.json({
+      res.status(404).json({
         success: false,
         error: error.message,
       });
     } else {
       // TODO: Add proper HTTP status code for server error
-      res.json({
+      res.status(500).json({
         success: false,
         error: error.message,
       });
