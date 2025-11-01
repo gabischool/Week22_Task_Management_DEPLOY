@@ -16,13 +16,23 @@ app.use(cors()); // Enable CORS for all routes
 app.use(bodyParser.json()); // Parse JSON request bodies
 app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
+// Health check endpoint (for deployment monitoring)
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Task Management API is running",
+    version: "1.0.0",
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Mount API routes
 app.use("/api/auth", authRoutes);
 app.use("/api", taskRoutes);
 
 // Protected route example
 app.get("/api/protected", authenticateToken, (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
     message: "This is a protected route",
     user: req.user,
